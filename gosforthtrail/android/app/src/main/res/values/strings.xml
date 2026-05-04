@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Gosforth Trail</string>
+    <string name="title_activity_main">Gosforth Trail</string>
+    <string name="package_name">com.gosforthtrail.hunt</string>
+    <string name="custom_url_scheme">com.gosforthtrail.hunt</string>
+</resources>

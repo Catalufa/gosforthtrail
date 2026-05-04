@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "cloudflare": "^6.0.0",
+    "wrangler": "^4.87.0"
+  }
+}
