@@ -1,7 +1,7 @@
 {
   "appId": "com.catalufa.gosforthtrail",
   "appName": "Gosforth Trail",
-  "webDir": "public",
+  "webDir": "gosforthtrail/public",
   "server": {
     "url": "serverUrl",
     "cleartext": true
