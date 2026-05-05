@@ -529,14 +529,40 @@
         });
     }
 
+    function showPermissionPrompt(message, settingsLabel) {
+        return new Promise((resolve) => {
+            const modal = document.createElement('div');
+            modal.className = 'modal';
+            modal.innerHTML = `
+                <div class="modal-content" style="text-align: center;">
+                    <p style="font-size: 16px; margin-bottom: 18px;">${message}</p>
+                    <button class="alert-button" id="alertSettings">${settingsLabel}</button>
+                    <button class="alert-button" id="alertCancel" style="background:#2d3e2b; margin-top:10px;">Not now</button>
+                </div>
+            `;
+            document.body.appendChild(modal);
+            document.getElementById('alertSettings').onclick = () => {
+                modal.remove();
+                resolve(true);
+            };
+            document.getElementById('alertCancel').onclick = () => {
+                modal.remove();
+                resolve(false);
+            };
+        });
+    }
+
     async function handlePermissionDenied() {
         locationStarted = false;
-        if (isNativePlatform) {
-            showToast('Location needed. Tap settings to grant.');
-            const opened = await openAppSettings();
-            if (!opened) await showAlert('Please enable location in your device settings.');
-        } else {
-            await showAlert('Location access blocked. Please allow in your browser settings.');
+        const message = 'Location is required to play the trail. We use it only to guide you to checkpoints.';
+        const proceed = await showPermissionPrompt(message, 'Open Settings');
+        if (proceed) {
+            if (isNativePlatform) {
+                const opened = await openAppSettings();
+                if (!opened) await showAlert('Please enable location in your device settings.');
+            } else {
+                await showAlert('Please allow location in your browser settings and try again.');
+            }
         }
         resetSplashButton(false);
     }
@@ -593,6 +619,7 @@
             document.getElementById('locationTitle').innerText = 'Location unavailable';
             document.getElementById('locationDistance').innerText = 'Enable location services';
         }
+        isRequestingLocation = false;
         resetSplashButton(false);
     }
 
